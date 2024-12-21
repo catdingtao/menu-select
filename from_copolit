@@ -1,0 +1,386 @@
+Skip to content
+Navigation Menu
+Copilot
+
+Type / to search
+Don't get locked out of your account. Download your recovery codes or add a passkey so you don't lose access when you get a new device.
+
+
+Copilot Chat
+Shell Script for Command Selection Menu
+请帮我编写一个shell,实现选择功能，并根据选择执行相应的command
+当然可以！以下是一个简单的Shell脚本示例，它提供了一个菜单供用户选择，并根据用户的选择执行相应的命令：
+
+bash
+#!/bin/bash
+
+# Function to display the menu
+show_menu() {
+    echo "Select an option:"
+    echo "1) Show current date and time"
+    echo "2) List files in current directory"
+    echo "3) Show current directory"
+    echo "4) Exit"
+}
+
+# Function to handle user input and execute commands
+handle_choice() {
+    case $1 in
+        1)
+            echo "Current date and time: "
+            date
+            ;;
+        2)
+            echo "Files in current directory: "
+            ls
+            ;;
+        3)
+            echo "Current directory: "
+            pwd
+            ;;
+        4)
+            echo "Exiting..."
+            exit 0
+            ;;
+        *)
+            echo "Invalid option, please try again."
+            ;;
+    esac
+}
+
+# Main script loop
+while true; do
+    show_menu
+    read -p "Enter your choice [1-4]: " choice
+    handle_choice $choice
+    echo # Print a blank line for better readability
+done
+解释
+show_menu函数：这个函数显示一个菜单，提供四个选项供用户选择。
+handle_choice函数：这个函数根据用户输入的选项来执行相应的命令。
+主脚本循环：使用while true循环不断显示菜单，读取用户输入，并调用handle_choice函数处理用户的选择。
+使用方法
+将上述代码保存到一个文件中，例如menu.sh。
+给予脚本执行权限：chmod +x menu.sh
+运行脚本：./menu.sh
+希望这个脚本能满足你的需求！如果你有任何其他问题，请随时告诉我。
+
+如果用windows cmd来实现
+当然可以！以下是一个在Windows命令提示符（cmd）中实现的菜单选择脚本示例。它提供了一个菜单供用户选择，并根据用户的选择执行相应的命令：
+
+batch
+@echo off
+:menu
+echo Select an option:
+echo 1) Show current date and time
+echo 2) List files in current directory
+echo 3) Show current directory
+echo 4) Exit
+
+set /p choice="Enter your choice [1-4]: "
+
+if %choice%==1 goto show_date_time
+if %choice%==2 goto list_files
+if %choice%==3 goto show_directory
+if %choice%==4 goto exit
+echo Invalid option, please try again.
+goto menu
+
+:show_date_time
+echo Current date and time:
+date /t
+time /t
+goto menu
+
+:list_files
+echo Files in current directory:
+dir
+goto menu
+
+:show_directory
+echo Current directory:
+cd
+goto menu
+
+:exit
+echo Exiting...
+exit /b
+解释
+菜单部分：使用echo显示菜单选项，并使用set /p读取用户输入的选项。
+条件判断：根据用户输入的选项，使用if语句跳转到相应的标签。
+各功能实现：
+显示当前日期和时间：使用date /t和time /t命令。
+列出当前目录中的文件：使用dir命令。
+显示当前目录：使用cd命令。
+退出：使用exit /b命令退出脚本。
+使用方法
+将上述代码保存到一个文件中，例如menu.cmd或menu.bat。
+双击运行该文件，或在命令提示符中运行：menu.cmd或menu.bat。
+希望这个脚本能满足你的需求！如果你有任何其他问题，请随时告诉我。
+
+如果是双层选择，比如第一层选择环境，第二层选择用户
+当然可以实现双层选择。以下是一个在Windows命令提示符（cmd）中实现双层选择菜单的示例。用户首先选择环境，然后根据所选环境选择用户，并执行相应的命令：
+
+batch
+@echo off
+setlocal enabledelayedexpansion
+
+:main_menu
+echo Select an environment:
+echo 1) Development
+echo 2) Testing
+echo 3) Production
+echo 4) Exit
+
+set /p env_choice="Enter your choice [1-4]: "
+
+if %env_choice%==1 set env=Development
+if %env_choice%==2 set env=Testing
+if %env_choice%==3 set env=Production
+if %env_choice%==4 goto exit
+if %env_choice% lss 1 goto invalid_choice
+if %env_choice% gtr 4 goto invalid_choice
+
+goto user_menu
+
+:user_menu
+echo You selected %env% environment.
+echo Select a user:
+echo 1) User1
+echo 2) User2
+echo 3) User3
+echo 4) Back to main menu
+
+set /p user_choice="Enter your choice [1-4]: "
+
+if %user_choice%==1 set user=User1
+if %user_choice%==2 set user=User2
+if %user_choice%==3 set user=User3
+if %user_choice%==4 goto main_menu
+if %user_choice% lss 1 goto invalid_choice
+if %user_choice% gtr 4 goto invalid_choice
+
+goto execute_command
+
+:execute_command
+echo You selected %user% in %env% environment.
+rem Place your commands here based on the selected environment and user
+rem For example:
+echo Running command for %user% in %env% environment...
+rem Add your actual command here
+goto main_menu
+
+:invalid_choice
+echo Invalid option, please try again.
+goto main_menu
+
+:exit
+echo Exiting...
+exit /b
+解释
+环境选择菜单：用户首先选择环境（开发、测试或生产），并将选择的环境存储在env变量中。
+用户选择菜单：根据所选环境，用户选择一个用户，并将选择的用户存储在user变量中。
+执行命令：根据所选的环境和用户执行相应的命令。
+无效选项处理：如果用户输入无效选项，将显示提示并返回主菜单。
+使用方法
+将上述代码保存到一个文件中，例如menu.cmd或menu.bat。
+双击运行该文件，或在命令提示符中运行：menu.cmd或menu.bat。
+希望这个脚本能满足你的需求！如果你有任何其他问题，请随时告诉我。
+
+用powershell实现
+当然！以下是一个在Windows PowerShell中实现双层选择菜单的示例。用户首先选择环境，然后根据所选环境选择用户，并执行相应的命令：
+
+PowerShell
+function Show-MainMenu {
+    Clear-Host
+    Write-Host "Select an environment:"
+    Write-Host "1) Development"
+    Write-Host "2) Testing"
+    Write-Host "3) Production"
+    Write-Host "4) Exit"
+    $envChoice = Read-Host "Enter your choice [1-4]"
+    return $envChoice
+}
+
+function Show-UserMenu {
+    param (
+        [string]$env
+    )
+    Clear-Host
+    Write-Host "You selected $env environment."
+    Write-Host "Select a user:"
+    Write-Host "1) User1"
+    Write-Host "2) User2"
+    Write-Host "3) User3"
+    Write-Host "4) Back to main menu"
+    $userChoice = Read-Host "Enter your choice [1-4]"
+    return $userChoice
+}
+
+function Execute-Command {
+    param (
+        [string]$env,
+        [string]$user
+    )
+    Clear-Host
+    Write-Host "You selected $user in $env environment."
+    # Place your commands here based on the selected environment and user
+    # For example:
+    Write-Host "Running command for $user in $env environment..."
+    # Add your actual command here
+}
+
+while ($true) {
+    $envChoice = Show-MainMenu
+
+    switch ($envChoice) {
+        1 { $env = "Development" }
+        2 { $env = "Testing" }
+        3 { $env = "Production" }
+        4 { Write-Host "Exiting..."; break }
+        default { Write-Host "Invalid option, please try again."; Start-Sleep -Seconds 2; continue }
+    }
+
+    while ($true) {
+        $userChoice = Show-UserMenu -env $env
+
+        switch ($userChoice) {
+            1 { $user = "User1" }
+            2 { $user = "User2" }
+            3 { $user = "User3" }
+            4 { break }  # Back to main menu
+            default { Write-Host "Invalid option, please try again."; Start-Sleep -Seconds 2; continue }
+        }
+
+        if ($userChoice -ge 1 -and $userChoice -le 3) {
+            Execute-Command -env $env -user $user
+            Start-Sleep -Seconds 2
+        }
+    }
+}
+解释
+Show-MainMenu 函数：显示环境选择菜单，读取用户输入并返回选择。
+Show-UserMenu 函数：显示用户选择菜单，读取用户输入并返回选择。
+Execute-Command 函数：根据所选的环境和用户执行相应的命令。这里可以放置实际的命令。
+主脚本循环：
+首先显示主菜单，让用户选择环境。
+根据用户的环境选择，显示用户选择菜单。
+根据用户的用户选择，执行相应的命令。
+提供返回主菜单和退出选项。
+使用方法
+将上述代码保存到一个文件中，例如menu.ps1。
+右键点击文件，选择“使用PowerShell运行”，或在PowerShell中运行：.\menu.ps1。
+希望这个脚本能满足你的需求！如果你有任何其他问题，请随时告诉我。
+
+bash事项双层选择
+当然可以！以下是一个在Bash中实现双层选择菜单的示例。用户首先选择环境，然后根据所选环境选择用户，并执行相应的命令：
+
+bash
+#!/bin/bash
+
+# Function to display the main menu
+show_main_menu() {
+    echo "Select an environment:"
+    echo "1) Development"
+    echo "2) Testing"
+    echo "3) Production"
+    echo "4) Exit"
+}
+
+# Function to display the user menu
+show_user_menu() {
+    local env=$1
+    echo "You selected $env environment."
+    echo "Select a user:"
+    echo "1) User1"
+    echo "2) User2"
+    echo "3) User3"
+    echo "4) Back to main menu"
+}
+
+# Function to handle the main menu choice
+handle_main_choice() {
+    case $1 in
+        1)
+            env="Development"
+            ;;
+        2)
+            env="Testing"
+            ;;
+        3)
+            env="Production"
+            ;;
+        4)
+            echo "Exiting..."
+            exit 0
+            ;;
+        *)
+            echo "Invalid option, please try again."
+            return 1
+            ;;
+    esac
+    return 0
+}
+
+# Function to handle the user menu choice
+handle_user_choice() {
+    local env=$1
+    case $2 in
+        1)
+            user="User1"
+            ;;
+        2)
+            user="User2"
+            ;;
+        3)
+            user="User3"
+            ;;
+        4)
+            return 1  # Indicate to go back to main menu
+            ;;
+        *)
+            echo "Invalid option, please try again."
+            return 2
+            ;;
+    esac
+    echo "You selected $user in $env environment."
+    # Place your commands here based on the selected environment and user
+    # For example:
+    echo "Running command for $user in $env environment..."
+    # Add your actual command here
+}
+
+# Main script loop
+while true; do
+    show_main_menu
+    read -p "Enter your choice [1-4]: " main_choice
+    handle_main_choice $main_choice
+    if [ $? -ne 0 ]; then
+        continue
+    fi
+
+    while true; do
+        show_user_menu $env
+        read -p "Enter your choice [1-4]: " user_choice
+        handle_user_choice $env $user_choice
+        if [ $? -eq 1 ]; then
+            break  # Go back to main menu
+        elif [ $? -eq 2 ]; then
+            continue  # Invalid option, stay in user menu
+        fi
+    done
+done
+解释
+主菜单显示函数 (show_main_menu)：显示环境选择菜单。
+用户菜单显示函数 (show_user_menu)：根据所选环境显示用户选择菜单。
+主菜单处理函数 (handle_main_choice)：处理用户在主菜单中的选择，并设置相应的环境变量。
+用户菜单处理函数 (handle_user_choice)：处理用户在用户菜单中的选择，并设置相应的用户变量，同时执行相应的命令。
+主脚本循环：首先显示主菜单并处理选择，如果选择有效则进入用户菜单循环，处理用户选择。
+使用方法
+将上述代码保存到一个文件中，例如menu.sh。
+给予脚本执行权限：chmod +x menu.sh
+运行脚本：./menu.sh
+希望这个脚本能满足你的需求！如果你有任何其他问题，请随时告诉我。
+
+Ask Copilot
+Copied!
